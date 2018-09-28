@@ -178,7 +178,7 @@ sleep .5
 if [ -z "$PLUGIN_FILE_NAME" ];
 then
     while true; do
-        echo -n "Enter plugin file name (the file name for plugin bootstrap file) [ENTER]:"
+        echo -n "Enter plugin file name (dh-plugin-<your-name>) NOTE: this value will define PHP namespaces and variable names [ENTER]:"
         read PLUGIN_FILE_NAME
         PLUGIN_FILE_NAME=$(trim $PLUGIN_FILE_NAME)
         if [ ! -z $PLUGIN_FILE_NAME ]; then
@@ -276,4 +276,4 @@ else
 fi;
 
 sudo npm install --silent
-gulp default --pluginName="$PLUGIN_NAME" --pluginFile="$PLUGIN_FILE_NAME" --pluginUri="$PLUGIN_URI" --pluginDescription="$PLUGIN_DESCRIPTION" --pluginAuthor="$PLUGIN_AUTHOR" --pluginAuthorUri="$PLUGIN_AUTHOR_URI" --pluginTextDomain="$PLUGIN_TEXT_DOMAIN"
+gulp default --pluginName="$PLUGIN_NAME" --pluginFileName="$PLUGIN_FILE_NAME" --pluginUri="$PLUGIN_URI" --pluginDescription="$PLUGIN_DESCRIPTION" --pluginAuthor="$PLUGIN_AUTHOR" --pluginAuthorUri="$PLUGIN_AUTHOR_URI" --pluginTextDomain="$PLUGIN_TEXT_DOMAIN"

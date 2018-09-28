@@ -1,4 +1,4 @@
-# Read me for {{description}} Plugin
+# Read me for {{pluginName}} Plugin
 
 <a name="requirements"></a>
 ## 2. Usage
@@ -8,11 +8,11 @@ Download plugin .zip from dist folder and use.
 
 ## 1. Development
 
-1. clone repo
+1. clone this repo
 2. do a `npm install` for dependencies
 3. run `grunt dist` to compile distributable plugin dist
 4. do a `composer install` (provided you have composer installed globally)
-4. do a `bower install` (provided you have bower installed globally)
+5. do a `bower install` (provided you have bower installed globally)
 
 you should tag new versions of plugin by running:
 

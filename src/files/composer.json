@@ -1,0 +1,31 @@
+{
+  "name": "dh-plugin-@pluginId@",
+  "description": "@pluginDescription@",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "@pluginAuthor@",
+      "homepage": "@pluginAuthorUri@",
+      "role": "Developer"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "config": {
+    "vendor-dir": "lib/vendor"
+  },
+  "repositories": [{
+      "type": "vcs",
+      "url": "https://github.com/digitale-helden/toolkit"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "katzgrau/klogger": "~1.2.1",
+    "digitale-helden/toolkit": "dev-master"
+  },
+  "autoload":{
+    "psr-4": {
+      "@pluginNamespace@\\": "src"
+    }
+  }
+}

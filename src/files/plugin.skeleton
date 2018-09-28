@@ -1,0 +1,55 @@
+<?php
+/*
+Plugin Name: @pluginName@
+Plugin URI: @pluginUri@
+Description: @pluginDescription@
+Author: @pluginAuthor@
+Author URI: @pluginAuthorUri@
+Text Domain: @pluginTextDomain@
+Version: 0.0.0
+*/
+
+if(!defined('DH_PLUGIN_DOMAIN'))
+{
+    define('DH_PLUGIN_DOMAIN', '@pluginTextDomain@');
+}
+define('DH_@pluginIdUppercase@_DIR', dirname(__FILE__));
+define('DH_@pluginIdUppercase@_FILE', __FILE__);
+define('DH_@pluginIdUppercase@_NAME', basename(__FILE__, '.php'));
+
+if(!function_exists('dh_@pluginId@'))
+{
+    function dh_@pluginId@()
+    {
+        try
+        {
+            require dirname(__FILE__) . '/lib/vendor/autoload.php';
+            if(is_file(DH_@pluginIdUppercase@_DIR . '/config/global.inc'))
+            {
+                require_once DH_@pluginIdUppercase@_DIR . '/config/global.inc';
+            }
+            if(is_file(DH_@pluginIdUppercase@_DIR . '/inc/functions.php'))
+            {
+                require_once DH_@pluginIdUppercase@_DIR . '/inc/functions.php';
+            }
+            $options = require_once DH_@pluginIdUppercase@_DIR . '/config/config.inc';
+            if(is_file(DH_@pluginIdUppercase@_DIR . '/config.inc'))
+            {
+                $options = array_merge($options, require_once DH_@pluginIdUppercase@_DIR . '/config.inc');
+            }
+            $plugin = new @pluginNamespace@\Plugin($options);
+            register_activation_hook(__FILE__, array($plugin, 'activate'));
+            register_deactivation_hook(__FILE__, array($plugin, 'deactivate'));
+            register_uninstall_hook(__FILE__, array(get_class($plugin), 'uninstall'));
+            add_action('init', function() use ($plugin)
+            {
+                $plugin->init();
+            });
+        }
+        catch(Exception $e)
+        {
+            @file_put_contents(ABSPATH . 'wp-content/logs/error.log', $e->getMessage() . "\n", FILE_APPEND);
+        }
+    }
+}
+dh_@pluginId@();
