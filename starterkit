@@ -83,6 +83,18 @@ DIST_PATH="https://raw.githubusercontent.com/digitale-helden/dh-plugin-starterki
 PHP=$(which PHP)
 PLUGIN_NAME=""
 PLUGIN_FILE_NAME=""
+PLUGIN_URI=""
+PLUGIN_DESCRIPTION=""
+PLUGIN_AUTHOR=""
+PLUGIN_AUTHOR_URI=""
+PLUGIN_TEXT_DOMAIN=""
+
+Plugin Name: @pluginName@
+Plugin URI: @pluginUri@
+Description: @pluginDescription@
+Author: @pluginAuthor@
+Author URI: @pluginAuthorUri@
+Text Domain: @pluginTextDomain@
 
 #parse command line arguments
 for i in "$@"
@@ -98,6 +110,26 @@ case $i in
     ;;
     --plugin-file-name=*)
     PLUGIN_FILE_NAME="${i#*=}"
+    shift # past argument=value
+    ;;
+    --plugin-uri=*)
+    PLUGIN_URI="${i#*=}"
+    shift # past argument=value
+    ;;
+    --plugin-description=*)
+    PLUGIN_DESCRIPTION="${i#*=}"
+    shift # past argument=value
+    ;;
+    --plugin-author=*)
+    PLUGIN_AUTHOR="${i#*=}"
+    shift # past argument=value
+    ;;
+    --plugin-author-uri=*)
+    PLUGIN_AUTHOR_URI="${i#*=}"
+    shift # past argument=value
+    ;;
+    --plugin-text-domain=*)
+    PLUGIN_TEXT_DOMAIN="${i#*=}"
     shift # past argument=value
     ;;
     *)
@@ -141,6 +173,8 @@ else
     echo -n "> Using plugin name: $PLUGIN_NAME"
 fi;
 
+sleep .5
+
 if [ -z "$PLUGIN_FILE_NAME" ];
 then
     while true; do
@@ -156,3 +190,90 @@ else
     echo -n "> Using plugin file name: $PLUGIN_FILE_NAME"
 fi;
 
+sleep .5
+
+if [ -z "$PLUGIN_URI" ];
+then
+    while true; do
+        echo -n "Enter plugin uri (url to repository of plugin) [ENTER]:"
+        read PLUGIN_URI
+        PLUGIN_URI=$(trim $PLUGIN_URI)
+        if [ ! -z $PLUGIN_URI ]; then
+            echo "> $PLUGIN_URI"; break;
+        fi;
+        sleep .5
+    done;
+else
+    echo -n "> Using plugin uri: $PLUGIN_URI"
+fi;
+
+sleep .5
+
+if [ -z "$PLUGIN_DESCRIPTION" ];
+then
+    while true; do
+        echo -n "Enter plugin description text [ENTER]:"
+        read PLUGIN_DESCRIPTION
+        PLUGIN_DESCRIPTION=$(trim $PLUGIN_DESCRIPTION)
+        if [ ! -z $PLUGIN_DESCRIPTION ]; then
+            echo "> $PLUGIN_DESCRIPTION"; break;
+        fi;
+        sleep .5
+    done;
+else
+    echo -n "> Using plugin description text: $PLUGIN_DESCRIPTION"
+fi;
+
+sleep .5
+
+if [ -z "$PLUGIN_AUTHOR" ];
+then
+    while true; do
+        echo -n "Enter plugin author name [ENTER]:"
+        read PLUGIN_AUTHOR
+        PLUGIN_AUTHOR=$(trim $PLUGIN_AUTHOR)
+        if [ ! -z $PLUGIN_AUTHOR ]; then
+            echo "> $PLUGIN_AUTHOR"; break;
+        fi;
+        sleep .5
+    done;
+else
+    echo -n "> Using plugin author name: $PLUGIN_AUTHOR"
+fi;
+
+sleep .5
+
+if [ -z "$PLUGIN_AUTHOR_URI" ];
+then
+    while true; do
+        echo -n "Enter plugin author uri [ENTER]:"
+        read PLUGIN_AUTHOR_URI
+        PLUGIN_AUTHOR_URI=$(trim $PLUGIN_AUTHOR_URI)
+        if [ ! -z $PLUGIN_AUTHOR_URI ]; then
+            echo "> $PLUGIN_AUTHOR_URI"; break;
+        fi;
+        sleep .5
+    done;
+else
+    echo -n "> Using plugin author uri: $PLUGIN_AUTHOR_URI"
+fi;
+
+sleep .5
+
+if [ -z "$PLUGIN_TEXT_DOMAIN" ];
+then
+    while true; do
+        echo -n "Enter plugin text domain [ENTER]:"
+        read PLUGIN_TEXT_DOMAIN
+        PLUGIN_TEXT_DOMAIN=$(trim $PLUGIN_TEXT_DOMAIN)
+        if [ ! -z $PLUGIN_TEXT_DOMAIN ]; then
+            echo "> $PLUGIN_TEXT_DOMAIN"; break;
+        fi;
+        sleep .5
+    done;
+else
+    echo -n "> Using plugin text domain: $PLUGIN_TEXT_DOMAIN"
+fi;
+
+sudo npm install --silent
+gulp default --pluginName="$PLUGIN_NAME" --pluginFile="$PLUGIN_FILE_NAME" --pluginUri="$PLUGIN_URI" --pluginDescription="$PLUGIN_DESCRIPTION" --pluginAuthor="$PLUGIN_AUTHOR" --pluginAuthorUri="$PLUGIN_AUTHOR_URI" --pluginTextDomain="$PLUGIN_TEXT_DOMAIN"

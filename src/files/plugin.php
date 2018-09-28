@@ -1,24 +1,23 @@
 <?php
 /*
-Plugin Name: @name@
-Plugin URI: https://digitalehelden.de/
-Description: Digitalehelden akademie groups
-Author: Frank Mueller <set@cooki.me>
-Author URI: https://github.com/setcooki/
-Text Domain: dh-plugin
+Plugin Name: @pluginName@
+Plugin URI: @pluginUri@
+Description: @pluginDescription@
+Author: @pluginAuthor@
+Author URI: @pluginAuthorUri@
+Text Domain: @pluginTextDomain@
 Version: 0.0.0
 */
 
 if(!defined('DH_PLUGIN_DOMAIN'))
 {
-    define('DH_PLUGIN_DOMAIN', 'dh-plugin');
+    define('DH_PLUGIN_DOMAIN', '@pluginTextDomain@');
 }
 
-if(!function_exists('dh_akademie_groups'))
+if(!function_exists('@pluginFileName@'))
 {
-    function dh_akademie_groups()
+    function @pluginFileName@()
     {
-
     }
 }
-dh_akademie_groups();
+@pluginFileName@();
