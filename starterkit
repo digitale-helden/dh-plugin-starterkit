@@ -1,0 +1,158 @@
+#!/usr/bin/env bash
+#================================================================
+# HEADER
+#================================================================
+#% SYNOPSIS
+#+      ${SCRIPT_NAME} args ...
+#%
+#% DESCRIPTION
+#%      Interactive installer for wordpress and wordpress demo data.
+#%
+#%      Script will:
+#%      - download and install wordpress core with specified version
+#%      - create a wp-config.php or read an existing one for install
+#%      - install demo data if required
+#%
+#% OPTIONS
+#%      --php=[path]                Optional path to PHP executable in case "php" env variable is not found or not wanted
+#%      --wp-path=[path]            Expects the relative download/install path from
+#%                                  relative from where this installer is executed
+#%      --wp-url=[url]              Expects the url (without http(s)://)
+#%                                  under which wordpress install will be running
+#%      --wp-version=[version]      Expects wordpress versions string as on
+#%                                  https://codex.wordpress.org/WordPress_Versions
+#%      --wp-demo-data=[y|n]        Expects value "y" or "n" whether to install
+#%                                  demo data
+#%
+#%      -h, --help                  Print this help
+#%      -v, --version               Print script information
+#%
+#% EXAMPLES
+#%      ${SCRIPT_NAME} -o --wp-url=wordpress.test --wp-version=4.7.5
+#%
+#================================================================
+#- IMPLEMENTATION
+#-      version         ${SCRIPT_NAME} 0.0.5
+#-      author          Frank Mueller (setcooki)
+#-      copyright       Copyright (c) http://set.cooki.me
+#-      license         MIT License
+#-
+#================================================================
+#  HISTORY
+#       2017/06/15 : setcooki : script creation
+#       2017/06/18 : setcooki : adds possibility to pass arguments
+#       2017/11/21 : setcooki : add possibility to define WP_VERSION file at script location
+#       2017/11/22 : setcooki : add new run time option --wp-path
+#       2018/30/01 : setcooki : major overhaul of script + adding option for using custom php executable
+#       2018/06/02 : setcooki : add mysql executable is check
+#
+#================================================================
+# END_OF_HEADER
+#================================================================
+
+
+SCRIPT_HEADSIZE=$(head -200 ${0} |grep -n "^# END_OF_HEADER" | cut -f1 -d:)
+SCRIPT_NAME="$(basename ${0})"
+
+USAGE() { printf "Usage: "; head -${SCRIPT_HEADSIZE:-99} ${0} | grep -e "^#+" | sed -e "s/^#+[ ]*//g" -e "s/\${SCRIPT_NAME}/${SCRIPT_NAME}/g" ; }
+HELP() { head -${SCRIPT_HEADSIZE:-99} ${0} | grep -e "^#[%+-]" | sed -e "s/^#[%+-]//g" -e "s/\${SCRIPT_NAME}/${SCRIPT_NAME}/g" ; }
+INFO() { head -${SCRIPT_HEADSIZE:-99} ${0} | grep -e "^#-" | sed -e "s/^#-//g" -e "s/\${SCRIPT_NAME}/${SCRIPT_NAME}/g"; }
+
+if [[ ( $@ == "--help") ||  $@ == "-h" ]]
+then
+    HELP
+	exit 0
+fi;
+
+if [[ ( $@ == "--version") ||  $@ == "-v" ]]
+then
+    INFO
+	exit 0
+fi;
+
+trim() {
+    local var="$*"
+    var="${var#"${var%%[![:space:]]*}"}"
+    var="${var%"${var##*[![:space:]]}"}"
+    echo -n "$var"
+}
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+REPO_PATH="https://raw.githubusercontent.com/digitale-helden/dh-plugin-starterkit/master/starterkit"
+DIST_PATH="https://raw.githubusercontent.com/digitale-helden/dh-plugin-starterkit/master/dist"
+PHP=$(which PHP)
+PLUGIN_NAME=""
+PLUGIN_FILE_NAME=""
+
+#parse command line arguments
+for i in "$@"
+do
+case $i in
+    --php=*)
+    PHP="${i#*=}"
+    shift # past argument=value
+    ;;
+    --plugin-name=*)
+    PLUGIN_NAME="${i#*=}"
+    shift # past argument=value
+    ;;
+    --plugin-file-name=*)
+    PLUGIN_FILE_NAME="${i#*=}"
+    shift # past argument=value
+    ;;
+    *)
+    # unknown option
+    ;;
+esac
+done
+
+if [ ! -x "$(command -v unzip)" ];
+then
+    echo -n "Could not find 'unzip' executable. Aborting now ..."
+    exit 1
+fi;
+
+if [ -d "$DIR/~tmp" ]; then
+    rm -rf "$DIR/~tmp/*"
+else
+    mkdir -p "$DIR/~tmp"
+fi;
+
+cd "$DIR/~tmp"
+
+wget "$DIST_PATH/dist.zip" 2>/dev/null || curl -O "$DIST_PATH/dist.zip"
+unzip -o "$DIR/~tmp/dist.zip"
+rm -f "$DIR/~tmp/dist.zip"
+
+sleep .5
+
+if [ -z "$PLUGIN_NAME" ];
+then
+    while true; do
+        echo -n "Enter plugin (nice) name as it appears in wordpress plugin comment [ENTER]:"
+        read PLUGIN_NAME
+        PLUGIN_NAME=$(trim $PLUGIN_NAME)
+        if [ ! -z $PLUGIN_NAME ]; then
+            echo "> $PLUGIN_NAME"; break;
+        fi;
+        sleep .5
+    done;
+else
+    echo -n "> Using plugin name: $PLUGIN_NAME"
+fi;
+
+if [ -z "$PLUGIN_FILE_NAME" ];
+then
+    while true; do
+        echo -n "Enter plugin file name (the file name for plugin bootstrap file) [ENTER]:"
+        read PLUGIN_FILE_NAME
+        PLUGIN_FILE_NAME=$(trim $PLUGIN_FILE_NAME)
+        if [ ! -z $PLUGIN_FILE_NAME ]; then
+            echo "> $PLUGIN_FILE_NAME"; break;
+        fi;
+        sleep .5
+    done;
+else
+    echo -n "> Using plugin file name: $PLUGIN_FILE_NAME"
+fi;
+

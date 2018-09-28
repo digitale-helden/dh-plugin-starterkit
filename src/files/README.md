@@ -1,4 +1,4 @@
-# Read me for Digitalehelden Akademie Groups Plugin
+# Read me for {{description}} Plugin
 
 <a name="requirements"></a>
 ## 2. Usage

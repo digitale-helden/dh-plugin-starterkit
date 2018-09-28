@@ -1,13 +1,10 @@
 const gulp = require('gulp');
 const zip = require('gulp-zip');
+const src = './src';
 
 function dist() {
     return gulp.src([
-        theme + '/**/*',
-        '!' + theme + '/node_modules/**',
-        '!' + theme + '/composer.json',
-        '!' + theme + '/composer.lock',
-        '!' + theme + '/package-lock.json'
+        src + '/**/*'
     ])
     .pipe(zip('dist.zip'))
     .pipe(gulp.dest('./dist'));
