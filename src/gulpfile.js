@@ -8,11 +8,11 @@ const dest = '../';
 
 function build() {
     let ns = ['DH', 'PLUGIN'];
-    if('pluginFileName' in argv){
+    if ('pluginFileName' in argv) {
         argv['pluginId'] = argv.pluginFileName.replace(/^dh\-plugin/, '').replace(/\.php$/, '');
         argv['pluginIdUppercase'] = argv['pluginId'].toUpperCase();
         ns.concat(argv['pluginId'].split('-'));
-        argv['pluginNamespace'] = '\\' +  ns.join('\\');
+        argv['pluginNamespace'] = '\\' + ns.join('\\');
     }
 
     let task = gulp.src([src + '/**/*.*']);
@@ -25,8 +25,14 @@ function build() {
     }
     task
         .pipe(rename(function (path) {
-            if (path.basename + path.extname === 'plugin.php' && 'pluginFile' in argv) {
+            if (path.basename + path.extname === 'plugin.skeleton' && 'pluginFile' in argv) {
                 path.basename = argv.pluginFile;
+                path.extname = '.php';
+            }
+        }))
+        .pipe(rename(function (path) {
+            if (path.extname === '.skeleton') {
+                path.extname = '';
             }
         }))
         .pipe(gulp.dest(dest));

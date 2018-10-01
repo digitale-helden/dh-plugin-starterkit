@@ -1,0 +1,151 @@
+<?php
+
+namespace @pluginNamespace@;
+
+use Katzgrau\KLogger\Logger;
+use Psr\Log\LogLevel;
+
+/**
+ * Class Plugin
+ * @package @pluginNamespace@\Plugin
+ */
+class Plugin
+{
+    const LOG                       = 'log';
+    const LOG_LEVEL                 = 'logLevel';
+
+
+    /**
+     * @var null
+     */
+    public static $logger = null;
+
+
+    /**
+     * @var null
+     */
+    public static $options = array
+    (
+        self::LOG => false,
+        self::LOG_LEVEL => LogLevel::DEBUG
+    );
+
+
+    /**
+     * Plugin constructor.
+     * @param null $options
+     * @throws \Exception
+     */
+    public function __construct($options = null)
+    {
+        if(is_array($options))
+        {
+           static::$options = array_merge(static::$options, $options);
+        }
+        $this->setup();
+    }
+
+
+    /**
+     * @return null
+     */
+    public static function logger()
+    {
+        if(static::$logger === null)
+        {
+            $dir = ABSPATH . 'wp-content/logs';
+            $htaccess = $dir . '/.htaccess';
+            if(!is_dir($dir))
+            {
+                mkdir($dir, 0775);
+            }
+            if(!is_file($htaccess))
+            {
+                file_put_contents($dir . '/.htaccess', "Options -Indexes\norder deny,allow\ndeny from all");
+            }
+            $options = array
+            (
+                'extension' => 'log',
+                'prefix' => '@pluginId@_'
+            );
+            static::$logger = new Logger(ABSPATH . 'wp-content/logs', static::$options['logLevel'], $options);
+        }
+        return static::$logger;
+    }
+
+
+    /**
+     * @param $key
+     * @param null $value
+     * @param null $default
+     * @return array|mixed|object
+     * @throws \Exception
+     */
+    public static function option($key, $value = null, $default = null)
+    {
+        if($value !== null)
+        {
+            dhpas_object_set(static::$options, $key, $value);
+        }
+        return dhpas_object_get(static::$options, $key, $default);
+    }
+
+
+    /**
+     * @param null $options
+     * @return null
+     */
+    public static function options($options = null)
+    {
+        if($options !== null)
+        {
+            static::$options = (array)$options;
+        }
+        return static::$options;
+    }
+
+
+    /**
+     * @throws \Exception
+     */
+    protected function setup()
+    {
+        static::logger();
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function init()
+    {
+        /**
+        * init your plugin here
+        */
+        return true;
+    }
+
+
+    /**
+     * @throws \Exception
+     */
+    public function activate()
+    {
+    }
+
+
+    /**
+     *
+     */
+    public function deactivate()
+    {
+    }
+
+
+    /**
+     *
+     */
+    public static function uninstall()
+    {
+    }
+}
