@@ -302,7 +302,7 @@ if [ ! -d "$DIR/wordpress" ]; then
     echo "OK!"
 fi;
 
-rm -f "$DIR/~tmp"
+rm -rf "$DIR/~tmp"
 
 echo "All done!"
 exit 0;
