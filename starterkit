@@ -285,9 +285,17 @@ sudo npm install --silent
 
 echo "OK!"
 
+echo "... Running gulp build:"
+
 gulp default --pluginName="$PLUGIN_NAME" --pluginFileName="$PLUGIN_FILE_NAME" --pluginUri="$PLUGIN_URI" --pluginDescription="$PLUGIN_DESCRIPTION" --pluginAuthor="$PLUGIN_AUTHOR" --pluginAuthorUri="$PLUGIN_AUTHOR_URI" --pluginTextDomain="$PLUGIN_TEXT_DOMAIN"
 
+echo "OK!"
+
 if [ ! -d "$DIR/wordpress" ]; then
+
+    echo "... Installing wordpress as resource:"
+    cd ..
     mkdir -p "$DIR/wordpress"
     $PHP ./bin/wp-cli.phar core download --path="$DIR/wordpress" --force
+    echo "OK!"
 fi;
