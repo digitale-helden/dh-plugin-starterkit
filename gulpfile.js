@@ -4,7 +4,8 @@ const src = './src';
 
 function dist() {
     return gulp.src([
-        src + '/**/*'
+        src + '/**/*',
+        src + '!/files/node_modules'
     ])
     .pipe(zip('dist.zip'))
     .pipe(gulp.dest('./dist'));
