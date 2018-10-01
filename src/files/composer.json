@@ -1,5 +1,5 @@
 {
-  "name": "dh-plugin-@pluginId@",
+  "name": "dh-plugin-@pluginSlug@",
   "description": "@pluginDescription@",
   "license": "MIT",
   "authors": [
@@ -25,7 +25,7 @@
   },
   "autoload":{
     "psr-4": {
-      "@pluginNamespace@\\": "src"
+      "@pluginNamespaceEscaped@\\": "src"
     }
   }
 }

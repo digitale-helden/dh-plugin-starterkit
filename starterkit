@@ -89,13 +89,6 @@ PLUGIN_AUTHOR=""
 PLUGIN_AUTHOR_URI=""
 PLUGIN_TEXT_DOMAIN=""
 
-Plugin Name: @pluginName@
-Plugin URI: @pluginUri@
-Description: @pluginDescription@
-Author: @pluginAuthor@
-Author URI: @pluginAuthorUri@
-Text Domain: @pluginTextDomain@
-
 #parse command line arguments
 for i in "$@"
 do
@@ -104,31 +97,31 @@ case $i in
     PHP="${i#*=}"
     shift # past argument=value
     ;;
-    --plugin-name=*)
+    --pluginName=*)
     PLUGIN_NAME="${i#*=}"
     shift # past argument=value
     ;;
-    --plugin-file-name=*)
+    --pluginFileName=*)
     PLUGIN_FILE_NAME="${i#*=}"
     shift # past argument=value
     ;;
-    --plugin-uri=*)
+    --pluginUri=*)
     PLUGIN_URI="${i#*=}"
     shift # past argument=value
     ;;
-    --plugin-description=*)
+    --pluginDescription=*)
     PLUGIN_DESCRIPTION="${i#*=}"
     shift # past argument=value
     ;;
-    --plugin-author=*)
+    --pluginAuthor=*)
     PLUGIN_AUTHOR="${i#*=}"
     shift # past argument=value
     ;;
-    --plugin-author-uri=*)
+    --pluginAuthorUri=*)
     PLUGIN_AUTHOR_URI="${i#*=}"
     shift # past argument=value
     ;;
-    --plugin-text-domain=*)
+    --pluginTextDomain=*)
     PLUGIN_TEXT_DOMAIN="${i#*=}"
     shift # past argument=value
     ;;
@@ -152,9 +145,20 @@ fi;
 
 cd "$DIR/~tmp"
 
-wget "$DIST_PATH/dist.zip" 2>/dev/null || curl -O "$DIST_PATH/dist.zip"
-unzip -o "$DIR/~tmp/dist.zip"
-rm -f "$DIR/~tmp/dist.zip"
+echo "... Getting dist files:"
+
+#wget "$DIST_PATH/dist.zip" 2>/dev/null || curl -O "$DIST_PATH/dist.zip"
+
+echo "OK!"
+
+echo "... Unzip dist files:"
+
+echo "OK!"
+
+#unzip -o -q "$DIR/~tmp/dist.zip"
+#rm -f "$DIR/~tmp/dist.zip"
+
+echo "... Running starterkit install:"
 
 sleep .5
 
@@ -164,13 +168,13 @@ then
         echo -n "Enter plugin (nice) name as it appears in wordpress plugin comment [ENTER]:"
         read PLUGIN_NAME
         PLUGIN_NAME=$(trim $PLUGIN_NAME)
-        if [ ! -z $PLUGIN_NAME ]; then
+        if [ ! -z "$PLUGIN_NAME" ]; then
             echo "> $PLUGIN_NAME"; break;
         fi;
         sleep .5
     done;
 else
-    echo -n "> Using plugin name: $PLUGIN_NAME"
+    echo "> Using plugin name: $PLUGIN_NAME"
 fi;
 
 sleep .5
@@ -181,13 +185,13 @@ then
         echo -n "Enter plugin file name (dh-plugin-<your-name>) NOTE: this value will define PHP namespaces and variable names [ENTER]:"
         read PLUGIN_FILE_NAME
         PLUGIN_FILE_NAME=$(trim $PLUGIN_FILE_NAME)
-        if [ ! -z $PLUGIN_FILE_NAME ]; then
+        if [ ! -z "$PLUGIN_FILE_NAME" ]; then
             echo "> $PLUGIN_FILE_NAME"; break;
         fi;
         sleep .5
     done;
 else
-    echo -n "> Using plugin file name: $PLUGIN_FILE_NAME"
+    echo "> Using plugin file name: $PLUGIN_FILE_NAME"
 fi;
 
 sleep .5
@@ -198,13 +202,13 @@ then
         echo -n "Enter plugin uri (url to repository of plugin) [ENTER]:"
         read PLUGIN_URI
         PLUGIN_URI=$(trim $PLUGIN_URI)
-        if [ ! -z $PLUGIN_URI ]; then
+        if [ ! -z "$PLUGIN_URI" ]; then
             echo "> $PLUGIN_URI"; break;
         fi;
         sleep .5
     done;
 else
-    echo -n "> Using plugin uri: $PLUGIN_URI"
+    echo "> Using plugin uri: $PLUGIN_URI"
 fi;
 
 sleep .5
@@ -215,13 +219,13 @@ then
         echo -n "Enter plugin description text [ENTER]:"
         read PLUGIN_DESCRIPTION
         PLUGIN_DESCRIPTION=$(trim $PLUGIN_DESCRIPTION)
-        if [ ! -z $PLUGIN_DESCRIPTION ]; then
+        if [ ! -z "$PLUGIN_DESCRIPTION" ]; then
             echo "> $PLUGIN_DESCRIPTION"; break;
         fi;
         sleep .5
     done;
 else
-    echo -n "> Using plugin description text: $PLUGIN_DESCRIPTION"
+    echo "> Using plugin description text: $PLUGIN_DESCRIPTION"
 fi;
 
 sleep .5
@@ -232,13 +236,13 @@ then
         echo -n "Enter plugin author name [ENTER]:"
         read PLUGIN_AUTHOR
         PLUGIN_AUTHOR=$(trim $PLUGIN_AUTHOR)
-        if [ ! -z $PLUGIN_AUTHOR ]; then
+        if [ ! -z "$PLUGIN_AUTHOR" ]; then
             echo "> $PLUGIN_AUTHOR"; break;
         fi;
         sleep .5
     done;
 else
-    echo -n "> Using plugin author name: $PLUGIN_AUTHOR"
+    echo "> Using plugin author name: $PLUGIN_AUTHOR"
 fi;
 
 sleep .5
@@ -246,16 +250,16 @@ sleep .5
 if [ -z "$PLUGIN_AUTHOR_URI" ];
 then
     while true; do
-        echo -n "Enter plugin author uri [ENTER]:"
+        echo -n "Enter plugin author uri (email or hompage url) [ENTER]:"
         read PLUGIN_AUTHOR_URI
         PLUGIN_AUTHOR_URI=$(trim $PLUGIN_AUTHOR_URI)
-        if [ ! -z $PLUGIN_AUTHOR_URI ]; then
+        if [ ! -z "$PLUGIN_AUTHOR_URI" ]; then
             echo "> $PLUGIN_AUTHOR_URI"; break;
         fi;
         sleep .5
     done;
 else
-    echo -n "> Using plugin author uri: $PLUGIN_AUTHOR_URI"
+    echo "> Using plugin author uri: $PLUGIN_AUTHOR_URI"
 fi;
 
 sleep .5
@@ -266,14 +270,24 @@ then
         echo -n "Enter plugin text domain [ENTER]:"
         read PLUGIN_TEXT_DOMAIN
         PLUGIN_TEXT_DOMAIN=$(trim $PLUGIN_TEXT_DOMAIN)
-        if [ ! -z $PLUGIN_TEXT_DOMAIN ]; then
+        if [ ! -z "$PLUGIN_TEXT_DOMAIN" ]; then
             echo "> $PLUGIN_TEXT_DOMAIN"; break;
         fi;
         sleep .5
     done;
 else
-    echo -n "> Using plugin text domain: $PLUGIN_TEXT_DOMAIN"
+    echo "> Using plugin text domain: $PLUGIN_TEXT_DOMAIN"
 fi;
 
+echo "... May need your sudo password for npm install now:"
+
 sudo npm install --silent
+
+echo "OK!"
+
 gulp default --pluginName="$PLUGIN_NAME" --pluginFileName="$PLUGIN_FILE_NAME" --pluginUri="$PLUGIN_URI" --pluginDescription="$PLUGIN_DESCRIPTION" --pluginAuthor="$PLUGIN_AUTHOR" --pluginAuthorUri="$PLUGIN_AUTHOR_URI" --pluginTextDomain="$PLUGIN_TEXT_DOMAIN"
+
+if [ ! -d "$DIR/wordpress" ]; then
+    mkdir -p "$DIR/wordpress"
+    $PHP ./bin/wp-cli.phar core download --path="$DIR/wordpress" --force
+fi;

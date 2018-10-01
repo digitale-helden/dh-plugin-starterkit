@@ -1,4 +1,4 @@
-# Read me for {{pluginName}} Plugin
+# Read me for @pluginName@ Plugin
 
 <a name="requirements"></a>
 ## 2. Usage
