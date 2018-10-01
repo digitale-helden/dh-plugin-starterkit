@@ -147,7 +147,7 @@ cd "$DIR/~tmp"
 
 echo "... Getting dist files:"
 
-#wget "$DIST_PATH/dist.zip" 2>/dev/null || curl -O "$DIST_PATH/dist.zip"
+wget "$DIST_PATH/dist.zip" 2>/dev/null || curl -O "$DIST_PATH/dist.zip"
 
 echo "OK!"
 
@@ -155,8 +155,8 @@ echo "... Unzip dist files:"
 
 echo "OK!"
 
-#unzip -o -q "$DIR/~tmp/dist.zip"
-#rm -f "$DIR/~tmp/dist.zip"
+unzip -o -q "$DIR/~tmp/dist.zip"
+rm -f "$DIR/~tmp/dist.zip"
 
 echo "... Running starterkit install:"
 
@@ -294,8 +294,15 @@ echo "OK!"
 if [ ! -d "$DIR/wordpress" ]; then
 
     echo "... Installing wordpress as resource:"
+    cd "$DIR/bin"
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     cd ..
     mkdir -p "$DIR/wordpress"
     $PHP ./bin/wp-cli.phar core download --path="$DIR/wordpress" --force
     echo "OK!"
 fi;
+
+rm -f "$DIR/~tmp"
+
+echo "All done!"
+exit 0;

@@ -6,7 +6,7 @@ function dist() {
     return gulp.src([
         src + '/**/*',
         src + '!/files/node_modules'
-    ], {allowEmpty: true})
+    ], {allowEmpty: true, dot: true})
     .pipe(zip('dist.zip'))
     .pipe(gulp.dest('./dist'));
 }
