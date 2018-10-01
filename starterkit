@@ -6,45 +6,28 @@
 #+      ${SCRIPT_NAME} args ...
 #%
 #% DESCRIPTION
-#%      Interactive installer for wordpress and wordpress demo data.
+#%      Digitale Helden Plugin starter kit
 #%
-#%      Script will:
-#%      - download and install wordpress core with specified version
-#%      - create a wp-config.php or read an existing one for install
-#%      - install demo data if required
+#%      Script will install a plugin skeleton for ready out-of-the-box plugin development
 #%
 #% OPTIONS
-#%      --php=[path]                Optional path to PHP executable in case "php" env variable is not found or not wanted
-#%      --wp-path=[path]            Expects the relative download/install path from
-#%                                  relative from where this installer is executed
-#%      --wp-url=[url]              Expects the url (without http(s)://)
-#%                                  under which wordpress install will be running
-#%      --wp-version=[version]      Expects wordpress versions string as on
-#%                                  https://codex.wordpress.org/WordPress_Versions
-#%      --wp-demo-data=[y|n]        Expects value "y" or "n" whether to install
-#%                                  demo data
 #%
 #%      -h, --help                  Print this help
 #%      -v, --version               Print script information
 #%
 #% EXAMPLES
-#%      ${SCRIPT_NAME} -o --wp-url=wordpress.test --wp-version=4.7.5
+#%      ${SCRIPT_NAME}
 #%
 #================================================================
 #- IMPLEMENTATION
-#-      version         ${SCRIPT_NAME} 0.0.5
+#-      version         ${SCRIPT_NAME} 0.0.1
 #-      author          Frank Mueller (setcooki)
 #-      copyright       Copyright (c) http://set.cooki.me
 #-      license         MIT License
 #-
 #================================================================
 #  HISTORY
-#       2017/06/15 : setcooki : script creation
-#       2017/06/18 : setcooki : adds possibility to pass arguments
-#       2017/11/21 : setcooki : add possibility to define WP_VERSION file at script location
-#       2017/11/22 : setcooki : add new run time option --wp-path
-#       2018/30/01 : setcooki : major overhaul of script + adding option for using custom php executable
-#       2018/06/02 : setcooki : add mysql executable is check
+#       2017/10/01 : setcooki : script creation
 #
 #================================================================
 # END_OF_HEADER
@@ -134,6 +117,12 @@ done
 if [ ! -x "$(command -v unzip)" ];
 then
     echo -n "Could not find 'unzip' executable. Aborting now ..."
+    exit 1
+fi;
+
+if [ ! -x "$(command -v composer)" ];
+then
+    echo -n "Could not find 'composer' executable. Please install first: https://getcomposer.org/download/"
     exit 1
 fi;
 
@@ -282,6 +271,12 @@ fi;
 echo "... May need your sudo password for npm install now:"
 
 sudo npm install --silent
+
+echo "OK!"
+
+echo "... Installing composer now"
+
+composer install
 
 echo "OK!"
 
