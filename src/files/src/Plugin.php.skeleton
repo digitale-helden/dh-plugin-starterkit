@@ -85,9 +85,9 @@ class Plugin
     {
         if($value !== null)
         {
-            dhpas_object_set(static::$options, $key, $value);
+            dh_object_set(static::$options, $key, $value);
         }
-        return dhpas_object_get(static::$options, $key, $default);
+        return dh_object_get(static::$options, $key, $default);
     }
 
 
