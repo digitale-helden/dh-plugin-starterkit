@@ -37,7 +37,7 @@ if(!function_exists('dh_@pluginId@'))
             {
                 $options = array_merge($options, require_once DH_@pluginIdUppercase@_DIR . '/config.inc');
             }
-            $plugin = new @pluginNamespace@\Plugin($options);
+            $plugin = new @pluginNamespaceFull@\Plugin($options);
             register_activation_hook(__FILE__, array($plugin, 'activate'));
             register_deactivation_hook(__FILE__, array($plugin, 'deactivate'));
             register_uninstall_hook(__FILE__, array(get_class($plugin), 'uninstall'));

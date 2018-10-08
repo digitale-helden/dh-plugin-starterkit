@@ -20,14 +20,15 @@
 #%
 #================================================================
 #- IMPLEMENTATION
-#-      version         ${SCRIPT_NAME} 0.0.1
+#-      version         ${SCRIPT_NAME} 0.0.2
 #-      author          Frank Mueller (setcooki)
 #-      copyright       Copyright (c) http://set.cooki.me
 #-      license         MIT License
 #-
 #================================================================
 #  HISTORY
-#       2017/10/01 : setcooki : script creation
+#       2018/10/01 : setcooki : script creation
+#       2018/10/08 : setcooki : fixes namespace placeholder
 #
 #================================================================
 # END_OF_HEADER

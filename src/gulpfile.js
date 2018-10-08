@@ -16,8 +16,9 @@ function build(ok) {
         for (let i = 0; i < parts.length; i++) {
             ns.push(parts[i].charAt(0).toUpperCase() + parts[i].slice(1));
         }
-        argv['pluginNamespace'] = '\\' + ns.join('\\');
-        argv['pluginNamespaceEscaped'] = '\\\\' + ns.join('\\\\');
+        argv['pluginNamespace'] = ns.join('\\');
+        argv['pluginNamespaceFull'] = '\\' + ns.join('\\');
+        argv['pluginNamespaceFullEscaped'] = '\\\\' + ns.join('\\\\');
     }
 
     let task = gulp.src([src + '/**/*.*']);
