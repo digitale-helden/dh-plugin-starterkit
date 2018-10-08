@@ -17,6 +17,7 @@ function build(ok) {
             ns.push(parts[i].charAt(0).toUpperCase() + parts[i].slice(1));
         }
         argv['pluginNamespace'] = ns.join('\\');
+        argv['pluginNamespaceEscaped'] = ns.join('\\\\');
         argv['pluginNamespaceFull'] = '\\' + ns.join('\\');
         argv['pluginNamespaceFullEscaped'] = '\\\\' + ns.join('\\\\');
     }
