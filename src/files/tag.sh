@@ -7,6 +7,7 @@ M="$2"
 GIT=$(which git)
 GRUNT=$(which grunt)
 GULP=$(which gulp)
+COMPOSER=$(which composer)
 
 if [ $# -lt 1 ]
 then
@@ -23,6 +24,11 @@ fi;
 $GIT tag -a v$V -m "Version $V $M"
 $GIT push --tags
 bash ./version.sh
+
+if [ -x "$(command -v $COMPOSER)" ];
+then
+  $COMPOSER update
+fi;
 
 if [ -x "$(command -v $GRUNT)" ];
 then
