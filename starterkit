@@ -20,7 +20,7 @@
 #%
 #================================================================
 #- IMPLEMENTATION
-#-      version         ${SCRIPT_NAME} 0.0.2
+#-      version         ${SCRIPT_NAME} 0.0.3
 #-      author          Frank Mueller (setcooki)
 #-      copyright       Copyright (c) http://set.cooki.me
 #-      license         MIT License
@@ -29,6 +29,7 @@
 #  HISTORY
 #       2018/10/01 : setcooki : script creation
 #       2018/10/08 : setcooki : fixes namespace placeholder
+#       2019/25/04 : setcooki : improving npm installing
 #
 #================================================================
 # END_OF_HEADER
@@ -118,6 +119,12 @@ done
 if [ ! -x "$(command -v unzip)" ];
 then
     echo -n "Could not find 'unzip' executable. Aborting now ..."
+    exit 1
+fi;
+
+if [ ! -x "$(command -v npm)" ];
+then
+    echo -n "Could not find 'npm' executable. Please install first: https://www.npmjs.com/get-npm"
     exit 1
 fi;
 
@@ -269,15 +276,11 @@ else
     echo "> Using plugin text domain: $PLUGIN_TEXT_DOMAIN"
 fi;
 
-echo "... May need your sudo password for npm install now:"
+echo "... Running npm install:"
 
-sudo npm install --silent
+npm install gulp --save-dev
 
-echo "OK!"
-
-echo "... Installing composer now"
-
-composer install
+npm install --silent
 
 echo "OK!"
 
@@ -298,7 +301,15 @@ if [ ! -d "$DIR/wordpress" ]; then
     echo "OK!"
 fi;
 
+cd "$DIR"
+
 rm -rf "$DIR/~tmp"
+
+echo "... Installing composer now"
+
+composer install
+
+echo "OK!"
 
 echo "All done!"
 exit 0;
