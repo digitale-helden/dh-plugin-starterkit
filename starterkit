@@ -305,9 +305,11 @@ cd "$DIR"
 
 rm -rf "$DIR/~tmp"
 
-echo "... Installing composer now"
+echo "... Installing dependencies now"
 
 composer install
+
+npm install --silent
 
 echo "OK!"
 
