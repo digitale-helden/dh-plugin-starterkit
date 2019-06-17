@@ -11,10 +11,10 @@ you need to be able to run at least "wget" command from terminal
 ### Linux and Mac OS X
 
 ``` sh
-$ curl -O https://raw.githubusercontent.com/digitale-helden/dh-plugin-starterkit/master/starterkit; bash ./starterkit
+$ curl -O -k https://raw.githubusercontent.com/digitale-helden/dh-plugin-starterkit/master/starterkit; bash ./starterkit
 ```
 ``` sh
-$ wget -Nnv https://raw.githubusercontent.com/digitale-helden/dh-plugin-starterkit/master/starterkit; bash ./starterkit
+$ wget -Nnv --no-check-certificate https://raw.githubusercontent.com/digitale-helden/dh-plugin-starterkit/master/starterkit; bash ./starterkit
 ```
 
 ### Windows

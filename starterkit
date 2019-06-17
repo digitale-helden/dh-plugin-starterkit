@@ -144,7 +144,7 @@ cd "$DIR/~tmp"
 
 echo "... Getting dist files:"
 
-wget "$DIST_PATH/dist.zip" 2>/dev/null || curl -O "$DIST_PATH/dist.zip"
+wget "$DIST_PATH/dist.zip" 2>/dev/null || curl -O -k "$DIST_PATH/dist.zip"
 
 echo "OK!"
 
@@ -294,7 +294,7 @@ if [ ! -d "$DIR/wordpress" ]; then
 
     echo "... Installing wordpress as resource:"
     cd "$DIR/bin"
-    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    curl -O -k https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     cd ..
     mkdir -p "$DIR/wordpress"
     $PHP ./bin/wp-cli.phar core download --path="$DIR/wordpress" --force
