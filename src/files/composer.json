@@ -15,13 +15,13 @@
   },
   "repositories": [{
       "type": "vcs",
-      "url": "https://github.com/digitale-helden/toolkit"
+      "url": "https://github.com/digitale-helden/wp-toolkit"
     }
   ],
   "require": {
     "php": ">=7.1",
     "katzgrau/klogger": "~1.2.1",
-    "digitale-helden/toolkit": "dev-master"
+    "digitale-helden/wp-toolkit": "dev-master"
   },
   "autoload":{
     "psr-4": {
