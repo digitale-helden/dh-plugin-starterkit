@@ -13,7 +13,12 @@
   "config": {
     "vendor-dir": "lib/vendor"
   },
-  "repositories": [{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/digitale-helden/wp-logger"
+    },
+    {
       "type": "vcs",
       "url": "https://github.com/digitale-helden/wp-toolkit"
     }
@@ -21,11 +26,13 @@
   "require": {
     "php": ">=7.1",
     "katzgrau/klogger": "~1.2.1",
+    "digitale-helden/wp-logger": "dev-master",
     "digitale-helden/wp-toolkit": "dev-master"
   },
-  "autoload":{
+  "autoload": {
     "psr-4": {
       "@pluginNamespaceEscaped@\\": "src"
     }
-  }
+  },
+  "minimum-stability": "dev"
 }

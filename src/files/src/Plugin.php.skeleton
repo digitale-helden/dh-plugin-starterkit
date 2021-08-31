@@ -2,8 +2,7 @@
 
 namespace @pluginNamespace@;
 
-use Katzgrau\KLogger\Logger;
-use Psr\Log\LogLevel;
+use DigitaleHelden\Logger\Logger;
 
 /**
  * Class Plugin
@@ -11,23 +10,22 @@ use Psr\Log\LogLevel;
  */
 class Plugin
 {
-    const LOG                       = 'log';
-    const LOG_LEVEL                 = 'logLevel';
-
+    /**
+     * @const bool
+     */
+    const LOG = 'log';
 
     /**
      * @var null
      */
     public static $logger = null;
 
-
     /**
      * @var null
      */
     public static $options = array
     (
-        self::LOG => false,
-        self::LOG_LEVEL => LogLevel::DEBUG
+        self::LOG => true
     );
 
 
@@ -47,28 +45,20 @@ class Plugin
 
 
     /**
-     * @return null
+     * @return \DigitaleHelden\Logger\Logger
+     * @throws \DigitaleHelden\Logger\Exception
      */
     public static function logger()
     {
         if(static::$logger === null)
         {
-            $dir = ABSPATH . 'wp-content/logs';
-            $htaccess = $dir . '/.htaccess';
-            if(!is_dir($dir))
-            {
-                mkdir($dir, 0775);
-            }
-            if(!is_file($htaccess))
-            {
-                file_put_contents($dir . '/.htaccess', "Options -Indexes\norder deny,allow\ndeny from all");
-            }
-            $options = array
-            (
-                'extension' => 'log',
-                'prefix' => '@pluginId@_'
-            );
-            static::$logger = new Logger(ABSPATH . 'wp-content/logs', static::$options['logLevel'], $options);
+            $facility = (defined('DH_LOG_FACILITY')) ? DH_LOG_FACILITY : @pluginName@;
+            $options =
+            [
+                Logger::BYPASS => !static::$options[self::LOG],
+                Logger::HANDLER => (defined('DH_LOG_HANDLER')) ? DH_LOG_HANDLER : 'file'
+            ];
+            static::$logger = new Logger($facility, $options);
         }
         return static::$logger;
     }
